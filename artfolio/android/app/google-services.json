@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "622289822279",
+    "project_id": "artfolio-5631d",
+    "storage_bucket": "artfolio-5631d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622289822279:android:3774536a82da8f10564762",
+        "android_client_info": {
+          "package_name": "com.example.artfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVkOLXt0o8lrxcvEvj_g2Y_ocCqVz0DE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
