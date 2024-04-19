@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'login.dart';
+import 'profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -21,14 +23,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void registerUser() async {
     if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       try {
         UserCredential userCredential =
-            await _auth.createUserWithEmailAndPassword(
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
-        // User registered successfully
-        Fluttertoast.showToast(msg: 'User registered successfully');
+
+        // Create a new profile object
+        Profile newProfile = Profile(
+          id: userCredential.user!.uid,
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          email: _emailController.text,
+        );
+
+        // Add to Firestore
+        await FirebaseFirestore.instance
+            .collection('profiles')
+            .doc(userCredential.user!.uid)
+            .set(newProfile.toMap());
+
+        Fluttertoast.showToast(msg: 'Registration successful');
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LoginScreen()),
         );
