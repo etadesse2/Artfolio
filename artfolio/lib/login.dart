@@ -1,7 +1,8 @@
+import 'package:artfolio/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'home_screen.dart'; // Ensure you have this file in your project
+import 'feed_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         // Navigate to the Home Screen
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => MainScreen()),
         );
       } catch (e) {
         Fluttertoast.showToast(msg: e.toString());

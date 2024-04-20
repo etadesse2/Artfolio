@@ -1,18 +1,19 @@
-//Art work model
-
 class Artwork {
   String id;
   String title;
   String description;
   String imageUrl;
   List<String> comments;
+  String type; // New field for artwork type
 
-  Artwork(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.imageUrl,
-      this.comments = const []});
+  Artwork({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.imageUrl,
+    this.comments = const [],
+    this.type = '', // Default to empty or a predefined category
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,6 +22,7 @@ class Artwork {
       'description': description,
       'imageUrl': imageUrl,
       'comments': comments,
+      'type': type, // Ensure this is included in your Firestore document
     };
   }
 
@@ -30,7 +32,8 @@ class Artwork {
       title: map['title'],
       description: map['description'],
       imageUrl: map['imageUrl'],
-      comments: List<String>.from(map['comments']),
+      comments: List<String>.from(map['comments'] ?? []),
+      type: map['type'] ?? '',
     );
   }
 }
