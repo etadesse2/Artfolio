@@ -4,6 +4,7 @@ class Profile {
   String firstName;
   String lastName;
   String email;
+  String profileImageUrl;
   List<dynamic> artworks;
 
   Profile(
@@ -11,6 +12,7 @@ class Profile {
       required this.firstName,
       required this.lastName,
       required this.email,
+      this.profileImageUrl = '',
       this.artworks = const []});
 
   Map<String, dynamic> toMap() {
@@ -19,6 +21,7 @@ class Profile {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
+      'profileImageUrl': profileImageUrl,
       'artworks': artworks,
     };
   }
@@ -29,6 +32,7 @@ class Profile {
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
       email: map['email'] ?? '',
+      profileImageUrl: map['profileImageUrl'] ?? '',
       artworks: map['artworks'] ?? [],
     );
   }

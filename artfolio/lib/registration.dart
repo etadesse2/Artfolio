@@ -37,6 +37,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           email: _emailController.text,
+          profileImageUrl: '',
         );
 
         // Add to Firestore
