@@ -61,6 +61,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.purple,
       body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/register.png'),
+                fit: BoxFit.fitHeight)),
         padding: const EdgeInsets.all(60.0),
         child: Form(
           key: _formKey,
