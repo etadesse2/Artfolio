@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MaterialApp(
+    home: MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -82,11 +81,64 @@ class MainApp extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15))),
                         onPressed: () {
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (BuildContext context) {
-                          //       return AlertDialog();
-                          //     });
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => Theme(
+                              data: ThemeData(
+                                  dialogBackgroundColor: Colors.white),
+                              child: AlertDialog(
+                                actions: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 28.0),
+                                    child: Container(
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                            hintText: "Request commission",
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 20,
+                                                    horizontal: 20),
+                                            border: InputBorder.none),
+                                        maxLines: null,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Center(
+                                    child: SizedBox(
+                                      width: 250,
+                                      height: 60,
+                                      child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.black,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15))),
+                                          child: const Text(
+                                            "Submit Request",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          )),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 30),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child:
+                                          const Center(child: Text("Cancel"))),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                         child: const Text(
                           "Commissions",
