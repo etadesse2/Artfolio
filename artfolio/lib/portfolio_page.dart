@@ -112,6 +112,15 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       FirebaseAuth.instance.sendPasswordResetEmail(
                           email: FirebaseAuth.instance.currentUser!.email
                               .toString());
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog(
+                              backgroundColor: Colors.white,
+                              content: Text(
+                                  "The password reset link has been sent to your email"),
+                            );
+                          });
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
