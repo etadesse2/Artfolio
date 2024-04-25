@@ -7,7 +7,7 @@ void main() {
 }
 
 class PortfolioScreen extends StatefulWidget {
-  const PortfolioScreen({Key? key}) : super(key: key);
+  const PortfolioScreen({Key? key});
 
   @override
   _PortfolioScreenState createState() => _PortfolioScreenState();
