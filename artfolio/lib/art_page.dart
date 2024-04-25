@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -81,6 +82,8 @@ class MainApp extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15))),
                         onPressed: () {
+                          final TextEditingController commissoncontroller =
+                              TextEditingController();
                           showDialog(
                             context: context,
                             builder: (ctx) => Theme(
@@ -97,6 +100,7 @@ class MainApp extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: TextFormField(
+                                        controller: commissoncontroller,
                                         decoration: const InputDecoration(
                                             hintText: "Request commission",
                                             contentPadding:
@@ -114,7 +118,13 @@ class MainApp extends StatelessWidget {
                                       width: 250,
                                       height: 60,
                                       child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            final Email email = Email(
+                                              body: commissoncontroller.text,
+                                              subject: "Commission Request",
+                                              recipients: [],
+                                            );
+                                          },
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.black,
                                               shape: RoundedRectangleBorder(
