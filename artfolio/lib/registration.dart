@@ -200,6 +200,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       }
                       return null;
                     },
+                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: 'Password',
                         fillColor: Colors.white,
@@ -232,6 +233,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       }
                       return null;
                     },
+                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: 'Confirm Password',
                         fillColor: Colors.white,
