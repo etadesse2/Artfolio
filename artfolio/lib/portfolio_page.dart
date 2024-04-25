@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -107,7 +108,11 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseAuth.instance.sendPasswordResetEmail(
+                          email: FirebaseAuth.instance.currentUser!.email
+                              .toString());
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
