@@ -11,7 +11,9 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading:
             _buildFilterChipBar(), // Place the filter chip bar on the left side
         leadingWidth: MediaQuery.of(context)
