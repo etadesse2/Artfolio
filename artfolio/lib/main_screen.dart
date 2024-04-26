@@ -23,7 +23,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Artfolio')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+          toolbarHeight: 90,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: const EdgeInsets.all(55.0),
+            child: Image.asset(
+              'assets/images/header.png',
+              fit: BoxFit.cover,
+            ),
+          )),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -34,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
               icon: Icon(Icons.business), label: 'Portfolio'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
     );
