@@ -44,7 +44,16 @@ class _FeedScreenState extends State<FeedScreen> {
             .map((category) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: ChoiceChip(
-                    label: Text(category),
+                    label: Text(
+                      category,
+                      style: TextStyle(
+                          color: selectedCategory == category
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                    selectedColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    checkmarkColor: Colors.white,
                     selected: selectedCategory == category,
                     onSelected: (bool selected) {
                       setState(() {
