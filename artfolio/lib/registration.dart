@@ -59,7 +59,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -200,6 +199,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       }
                       return null;
                     },
+                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: 'Password',
                         fillColor: Colors.white,
@@ -232,6 +232,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       }
                       return null;
                     },
+                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: 'Confirm Password',
                         fillColor: Colors.white,

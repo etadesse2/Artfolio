@@ -50,14 +50,6 @@ class _PortfolioState extends State<Portfolio> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back)),
-      ),
       body: GridView.builder(
         padding: const EdgeInsets.all(30),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

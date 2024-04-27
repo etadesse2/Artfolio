@@ -82,7 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: TextFormField(
                     onChanged: (value) => email = value,
-                    obscureText: true,
                     validator: (value) {
                       if (value!.isEmpty || !value.contains('@')) {
                         return 'Please enter a valid email';

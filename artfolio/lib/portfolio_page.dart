@@ -1,3 +1,4 @@
+import 'package:artfolio/login.dart';
 import 'package:artfolio/portfolio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -263,7 +264,22 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          icon: const Icon(
+                            Icons.logout,
+                          )),
+                    ),
+                    const SizedBox(height: 20),
                     const Divider(),
                     SizedBox(height: 25),
                     GestureDetector(
@@ -285,7 +301,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              "Go To\nPortfolio",
+                              "Portfolio",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
@@ -406,6 +422,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                           },
                           icon: const Icon(Icons.add)),
                     ),
+                    const SizedBox(height: 60),
                   ],
                 ),
               ),
