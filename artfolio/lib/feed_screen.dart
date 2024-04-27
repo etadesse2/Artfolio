@@ -46,18 +46,18 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Art Feed'),
+        backgroundColor: Colors.white,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: Size.fromHeight(20),
           child: _buildFilterChipBar(),
         ),
       ),
       body: GridView.builder(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(30),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 30,
+          mainAxisSpacing: 50,
           childAspectRatio:
               (1 / 1.5), // Adjust the aspect ratio of the grid items
         ),
@@ -68,12 +68,12 @@ class _FeedScreenState extends State<FeedScreen> {
             onTap: () => navigateToArtDetailPage(artwork),
             child: GridTile(
               child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
-              footer: GridTileBar(
-                backgroundColor: Colors.black54,
-                title: Text(artwork.title, style: TextStyle(fontSize: 14)),
-                subtitle:
-                    Text(artwork.description, style: TextStyle(fontSize: 12)),
-              ),
+              // footer: GridTileBar(
+              //   backgroundColor: Colors.black54,
+              //   title: Text(artwork.title, style: TextStyle(fontSize: 14)),
+              //   subtitle:
+              //       Text(artwork.description, style: TextStyle(fontSize: 12)),
+              // ),
             ),
           );
         },
@@ -99,7 +99,17 @@ class _FeedScreenState extends State<FeedScreen> {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: ChoiceChip(
-              label: Text(category),
+              selectedColor: Colors.black,
+              backgroundColor: Colors.white,
+              label: Text(
+                category,
+                style: TextStyle(
+                    color: selectedCategory == category
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              showCheckmark: true,
+              checkmarkColor: Colors.white,
               selected: selectedCategory == category,
               onSelected: (bool selected) {
                 setState(() {
