@@ -99,6 +99,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   }
 
   Future<void> _uploadArtwork() async {
+    Navigator.pop(context);
     if (_artworkImageFile == null) return;
     try {
       String filePath =
@@ -166,79 +167,209 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Your Portfolio')),
+      backgroundColor: Colors.white,
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (_isUpdatingImage) CircularProgressIndicator(),
-                  SizedBox(height: 20),
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: userProfile != null &&
-                            userProfile!.profileImageUrl.isNotEmpty
-                        ? NetworkImage(userProfile!.profileImageUrl)
-                            as ImageProvider
-                        : AssetImage('assets/images/profile_pic.png')
-                            as ImageProvider,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                      userProfile != null
-                          ? "${userProfile!.firstName} ${userProfile!.lastName}"
-                          : "Loading...",
-                      style: TextStyle(fontSize: 20)),
-                  ElevatedButton(
-                    onPressed: _pickAndUpdateProfileImage,
-                    child: Text('Update Profile Picture'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _loadUserProfile,
-                    child: Text('Refresh Profile'),
-                  ),
-                  Divider(),
-                  Text('Upload New Artwork',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 20),
-                  _artworkImageFile != null
-                      ? Image.file(_artworkImageFile!)
-                      : Container(),
-                  ElevatedButton(
-                    onPressed: _pickArtworkImage,
-                    child: Text('Pick Image for Artwork'),
-                  ),
-                  TextField(
-                    controller: _titleController,
-                    decoration: InputDecoration(labelText: 'Title'),
-                  ),
-                  TextField(
-                    controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Description'),
-                  ),
-                  DropdownButton<String>(
-                    value: _selectedType,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedType = newValue!;
-                      });
-                    },
-                    items:
-                        _artTypes.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  ElevatedButton(
-                    onPressed: _uploadArtwork,
-                    child: Text('Upload Artwork'),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (_isUpdatingImage) CircularProgressIndicator(),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Profile \n& Portfolio",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                                userProfile != null
+                                    ? "${userProfile!.firstName} ${userProfile!.lastName}"
+                                    : "Loading...",
+                                style: const TextStyle(fontSize: 15)),
+                            const SizedBox(height: 5),
+                            Text(
+                                userProfile != null
+                                    ? "${userProfile!.email}"
+                                    : "Loading...",
+                                style: TextStyle(fontSize: 15)),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    FirebaseAuth.instance
+                                        .sendPasswordResetEmail(
+                                            email: FirebaseAuth
+                                                .instance.currentUser!.email
+                                                .toString());
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            content: Text(
+                                                "The password reset link has been sent to your email"),
+                                          );
+                                        });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Reset Password",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: _loadUserProfile,
+                                    icon: Icon(Icons.refresh)),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 60,
+                              backgroundImage: userProfile != null &&
+                                      userProfile!.profileImageUrl.isNotEmpty
+                                  ? NetworkImage(userProfile!.profileImageUrl)
+                                      as ImageProvider
+                                  : AssetImage('assets/images/profilepic.png')
+                                      as ImageProvider,
+                            ),
+                            IconButton(
+                                onPressed: _pickAndUpdateProfileImage,
+                                icon: const Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: Colors.black,
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    const Divider(),
+                    // GridView.builder(
+                    //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //         crossAxisCount: 3),
+                    //     itemBuilder: (context, index) {
+                    //       return Padding(padding: EdgeInsets.all(8), child: Container(child: Image.network(''),),);
+                    //     }),
+                    IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              barrierColor: Color.fromARGB(116, 94, 94, 94),
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  actions: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 20),
+                                            _artworkImageFile != null
+                                                ? Image.file(_artworkImageFile!)
+                                                : Container(),
+                                            TextField(
+                                              controller: _titleController,
+                                              decoration: const InputDecoration(
+                                                  labelText: 'Title'),
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(),
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: TextField(
+                                                controller:
+                                                    _descriptionController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        20,
+                                                                    horizontal:
+                                                                        20),
+                                                        border:
+                                                            InputBorder.none,
+                                                        labelText:
+                                                            'Description'),
+                                                maxLines: null,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            DropdownButton<String>(
+                                              value: _selectedType,
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  _selectedType = newValue!;
+                                                });
+                                              },
+                                              items: _artTypes.map<
+                                                      DropdownMenuItem<String>>(
+                                                  (String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
+                                            IconButton(
+                                                onPressed: _pickArtworkImage,
+                                                icon: const Icon(
+                                                  Icons
+                                                      .drive_folder_upload_sharp,
+                                                  color: Colors.black,
+                                                )),
+                                            const SizedBox(height: 20),
+                                            ElevatedButton(
+                                              onPressed: _uploadArtwork,
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.black,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                              ),
+                                              child: const Text(
+                                                "Add to Portfolio",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        icon: const Icon(Icons.add)),
+                  ],
+                ),
               ),
             ),
     );
