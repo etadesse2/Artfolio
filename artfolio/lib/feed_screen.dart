@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'art_work.dart'; // Your artwork model class
+import 'art_page.dart'; // Your art detail page class
+import 'profile.dart'; // Your profile model class
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -20,7 +22,8 @@ class _FeedScreenState extends State<FeedScreen> {
   void _fetchArtworks() {
     FirebaseFirestore.instance.collection('artworks').get().then((snapshot) {
       List<Artwork> artworks = snapshot.docs
-          .map((doc) => Artwork.fromMap(doc.data(), doc.id))
+          .map((doc) =>
+              Artwork.fromMap(doc.data() as Map<String, dynamic>, doc.id))
           .toList();
       setState(() {
         allArtworks = artworks;
@@ -55,22 +58,22 @@ class _FeedScreenState extends State<FeedScreen> {
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
+          childAspectRatio:
+              (1 / 1.5), // Adjust the aspect ratio of the grid items
         ),
         itemCount: filteredArtworks.length,
         itemBuilder: (context, index) {
           Artwork artwork = filteredArtworks[index];
-          return Card(
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image.network(artwork.imageUrl, fit: BoxFit.cover),
-                ListTile(
-                  title: Text(artwork.title),
-                  subtitle: Text(artwork.description),
-                ),
-                // ... any other widgets to display artwork details
-              ],
+          return GestureDetector(
+            onTap: () => navigateToArtDetailPage(artwork),
+            child: GridTile(
+              child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
+              footer: GridTileBar(
+                backgroundColor: Colors.black54,
+                title: Text(artwork.title, style: TextStyle(fontSize: 14)),
+                subtitle:
+                    Text(artwork.description, style: TextStyle(fontSize: 12)),
+              ),
             ),
           );
         },
@@ -85,38 +88,45 @@ class _FeedScreenState extends State<FeedScreen> {
       'Sketch',
       'Photography',
       'Ceramics',
-      'Others'
+      'Others',
     ];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
-        children: categories
-            .map((category) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: ChoiceChip(
-                    label: Text(
-                      category,
-                      style: TextStyle(
-                          color: selectedCategory == category
-                              ? Colors.white
-                              : Colors.black),
-                    ),
-                    selectedColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    checkmarkColor: Colors.white,
-                    selected: selectedCategory == category,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        if (selected) selectedCategory = category;
-                        // The feed will update to show the filtered artworks
-                      });
-                    },
-                  ),
-                ))
-            .toList(),
+        children: categories.map((category) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: ChoiceChip(
+              label: Text(category),
+              selected: selectedCategory == category,
+              onSelected: (bool selected) {
+                setState(() {
+                  if (selected) selectedCategory = category;
+                  _fetchArtworks(); // Refetch artworks with the selected category
+                });
+              },
+            ),
+          );
+        }).toList(),
       ),
     );
   }
+
+  void navigateToArtDetailPage(Artwork artwork) async {
+    Profile artistProfile = await fetchArtistProfile(artwork.userId);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) =>
+            ArtDetailPage(artwork: artwork, artistProfile: artistProfile),
+      ),
+    );
+  }
+}
+
+Future<Profile> fetchArtistProfile(String userId) async {
+  DocumentSnapshot snapshot =
+      await FirebaseFirestore.instance.collection('profiles').doc(userId).get();
+  return Profile.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
 }
