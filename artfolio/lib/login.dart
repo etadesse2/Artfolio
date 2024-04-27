@@ -3,7 +3,6 @@ import 'package:artfolio/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'feed_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -24,16 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
           email: email,
           password: password,
         );
-        // User signed in successfully
         Fluttertoast.showToast(msg: 'Login successful');
 
-        // Navigate to the Home Screen
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => MainScreen()),
         );
       } catch (e) {
         Fluttertoast.showToast(msg: e.toString());
-        // Handle errors here, such as wrong password or no user found
       }
     }
   }

@@ -12,8 +12,8 @@ class Portfolio extends StatefulWidget {
 }
 
 class _PortfolioState extends State<Portfolio> {
-  String selectedCategory = 'All'; // Default category
-  List<Artwork> allArtworks = []; // List to hold all artworks
+  String selectedCategory = 'All';
+  List<Artwork> allArtworks = [];
 
   @override
   void initState() {

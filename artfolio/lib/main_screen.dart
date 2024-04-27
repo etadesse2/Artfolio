@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'feed_screen.dart'; // Assuming this file contains the FeedScreen class
-import 'portfolio_page.dart'; // Assuming this file contains the PortfolioScreen class
+import 'feed_screen.dart';
+import 'portfolio_page.dart';
 
 class MainScreen extends StatefulWidget {
   @override

@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'art_work.dart'; // Your Artwork model
-import 'profile.dart'; // Your Profile model
+import 'art_work.dart';
+import 'profile.dart';
 
 class ArtDetailPage extends StatelessWidget {
   final Artwork artwork;
@@ -22,7 +20,6 @@ class ArtDetailPage extends StatelessWidget {
 
   TextEditingController email = TextEditingController();
 
-  // Remove 'Artwork artwork,' from the constructor
   ArtDetailPage({
     required this.artwork,
     required this.artistProfile,
@@ -30,39 +27,33 @@ class ArtDetailPage extends StatelessWidget {
 
   final TextEditingController commentController = TextEditingController();
 
-// Function to add a comment to an artwork
   Future<void> addComment(
       String artworkId, String comment, BuildContext context) async {
     try {
       DocumentReference artworkRef =
           FirebaseFirestore.instance.collection('artworks').doc(artworkId);
 
-      print(
-          "Adding comment: $comment to artwork ID: $artworkId"); // Debug output
+      print("Adding comment: $comment to artwork ID: $artworkId");
 
-      // Update the comments array in Firestore
       await artworkRef.update({
         'comments': FieldValue.arrayUnion([comment])
       });
 
-      // Optionally clear the comment controller and close the keyboard
       commentController.clear();
       FocusScope.of(context).unfocus();
 
-      // Show a success message
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Comment added successfully')));
     } catch (e) {
-      print("Failed to add comment: $e"); // Log the error
+      print("Failed to add comment: $e");
 
-      // Handle errors, e.g., show an error message
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Failed to add comment: $e')));
     }
   }
 
-  String selectedCategory = 'All'; // Default category
-  List<Artwork> allArtworks = []; // List to hold all artworks
+  String selectedCategory = 'All';
+  List<Artwork> allArtworks = [];
 
   @override
   void initState() {
@@ -95,7 +86,6 @@ class ArtDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isOwner = artwork.userId == FirebaseAuth.instance.currentUser!.uid;
 
-    // Listen to real-time updates of the artwork comments
     Stream<List<String>> commentsStream = FirebaseFirestore.instance
         .collection('artworks')
         .doc(artwork.id)
@@ -106,7 +96,7 @@ class ArtDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -129,7 +119,7 @@ class ArtDetailPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -137,20 +127,18 @@ class ArtDetailPage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
                       artwork.type,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 15),
                     ),
                   ),
                   Row(
                     children: [
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                             '${artwork.title}\nBy ${artistProfile.firstName} ${artistProfile.lastName}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 18)
-                            // Theme.of(context).textTheme.headline6,
-                            ),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 18)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20.0),
@@ -210,7 +198,7 @@ class ArtDetailPage extends StatelessWidget {
                                         maxLines: null,
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     ElevatedButton(
                                       onPressed: () {
                                         // _key.currentState!.save();
@@ -240,7 +228,7 @@ class ArtDetailPage extends StatelessWidget {
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ),
-                                    SizedBox(height: 30),
+                                    const SizedBox(height: 30),
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.pop(context);
@@ -272,11 +260,6 @@ class ArtDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text("${artistProfile.firstName}'s Portfolio",
-                        style: TextStyle(fontWeight: FontWeight.w600)),
-                  ),
                   const Divider(),
                   const SizedBox(height: 20),
                   const Padding(
@@ -290,15 +273,15 @@ class ArtDetailPage extends StatelessWidget {
                     stream: commentsStream,
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return Text('Error loading comments');
+                        return const Text('Error loading comments');
                       }
                       if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                       List<String> comments = snapshot.data!;
                       return ListView(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: comments
                             .map((comment) => ListTile(title: Text(comment)))
                             .toList(),
@@ -323,7 +306,7 @@ class ArtDetailPage extends StatelessWidget {
                             commentController.clear();
                           }
                         },
-                        child: Text('Post Comment'),
+                        child: const Text('Post Comment'),
                       ),
                     ),
                   ]
@@ -337,7 +320,6 @@ class ArtDetailPage extends StatelessWidget {
   }
 
   Future<void> addCommentToFirestore(String artworkId, String comment) async {
-    // Add comment to the comments array in the Firestore document
     await FirebaseFirestore.instance
         .collection('artworks')
         .doc(artworkId)

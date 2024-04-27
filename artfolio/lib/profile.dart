@@ -1,4 +1,3 @@
-// File: profile.dart
 class Profile {
   String id;
   String firstName;

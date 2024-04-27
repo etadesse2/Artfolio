@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'art_work.dart'; // Your artwork model class
-import 'art_page.dart'; // Your art detail page class
-import 'profile.dart'; // Your profile model class
+import 'art_work.dart';
+import 'art_page.dart';
+import 'profile.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -10,8 +10,8 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  String selectedCategory = 'All'; // Default category
-  List<Artwork> allArtworks = []; // List to hold all artworks
+  String selectedCategory = 'All';
+  List<Artwork> allArtworks = [];
 
   @override
   void initState() {
@@ -53,13 +53,12 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
       ),
       body: GridView.builder(
-        padding: EdgeInsets.all(30),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        padding: const EdgeInsets.all(30),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 30,
           mainAxisSpacing: 50,
-          childAspectRatio:
-              (1 / 1.5), // Adjust the aspect ratio of the grid items
+          childAspectRatio: (1 / 1.5),
         ),
         itemCount: filteredArtworks.length,
         itemBuilder: (context, index) {
@@ -68,12 +67,6 @@ class _FeedScreenState extends State<FeedScreen> {
             onTap: () => navigateToArtDetailPage(artwork),
             child: GridTile(
               child: Image.network(artwork.imageUrl, fit: BoxFit.cover),
-              // footer: GridTileBar(
-              //   backgroundColor: Colors.black54,
-              //   title: Text(artwork.title, style: TextStyle(fontSize: 14)),
-              //   subtitle:
-              //       Text(artwork.description, style: TextStyle(fontSize: 12)),
-              // ),
             ),
           );
         },
@@ -93,7 +86,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: categories.map((category) {
           return Padding(
@@ -114,7 +107,7 @@ class _FeedScreenState extends State<FeedScreen> {
               onSelected: (bool selected) {
                 setState(() {
                   if (selected) selectedCategory = category;
-                  _fetchArtworks(); // Refetch artworks with the selected category
+                  _fetchArtworks();
                 });
               },
             ),

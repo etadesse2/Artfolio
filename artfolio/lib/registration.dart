@@ -31,7 +31,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           password: _passwordController.text,
         );
 
-        // Create a new profile object
         Profile newProfile = Profile(
           id: userCredential.user!.uid,
           firstName: _firstNameController.text,
@@ -40,7 +39,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           profileImageUrl: '',
         );
 
-        // Add to Firestore
         await FirebaseFirestore.instance
             .collection('profiles')
             .doc(userCredential.user!.uid)
@@ -272,9 +270,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white
-                            // color: Theme.of(context).primaryColor,
-                            )),
+                            color: Colors.white)),
                   ),
                 ),
               ],
