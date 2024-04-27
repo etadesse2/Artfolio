@@ -263,7 +263,7 @@ class ArtDetailPage extends StatelessWidget {
                   const Divider(),
                   const SizedBox(height: 20),
                   const Padding(
-                    padding: EdgeInsets.only(left: 10.0),
+                    padding: EdgeInsets.only(left: 10.0, bottom: 15),
                     child: Text(
                       'Comments',
                       style: TextStyle(fontWeight: FontWeight.w600),
