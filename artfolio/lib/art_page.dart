@@ -152,10 +152,13 @@ class ArtDetailPage extends StatelessWidget {
                             // Theme.of(context).textTheme.headline6,
                             ),
                       ),
-                      CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(artistProfile.profileImageUrl),
-                        radius: 30,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(artistProfile.profileImageUrl),
+                          radius: 50,
+                        ),
                       ),
                     ],
                   ),
@@ -215,7 +218,14 @@ class ArtDetailPage extends StatelessWidget {
                                           "Commission Request",
                                           email.text,
                                           artistProfile.email,
-                                        );
+                                        ).then((_) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content:
+                                                Text("Email has been sent"),
+                                            duration: Duration(seconds: 3),
+                                          ));
+                                        });
                                         Navigator.pop(context);
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -267,7 +277,6 @@ class ArtDetailPage extends StatelessWidget {
                     child: Text("${artistProfile.firstName}'s Portfolio",
                         style: TextStyle(fontWeight: FontWeight.w600)),
                   ),
-                  SingleChildScrollView(),
                   const Divider(),
                   const SizedBox(height: 20),
                   const Padding(
