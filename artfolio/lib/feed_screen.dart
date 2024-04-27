@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'art_work.dart'; // Your artwork model class
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -7,19 +9,70 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   String selectedCategory = 'All'; // Default category
+  List<Artwork> allArtworks = []; // List to hold all artworks
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchArtworks();
+  }
+
+  void _fetchArtworks() {
+    FirebaseFirestore.instance.collection('artworks').get().then((snapshot) {
+      List<Artwork> artworks = snapshot.docs
+          .map((doc) => Artwork.fromMap(doc.data(), doc.id))
+          .toList();
+      setState(() {
+        allArtworks = artworks;
+      });
+    });
+  }
+
+  List<Artwork> get filteredArtworks {
+    if (selectedCategory == 'All') {
+      return allArtworks;
+    } else {
+      return allArtworks
+          .where((artwork) => artwork.type == selectedCategory)
+          .toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading:
-            _buildFilterChipBar(), // Place the filter chip bar on the left side
-        leadingWidth: MediaQuery.of(context)
-            .size
-            .width, // Extend the width of the leading area to occupy full AppBar width
+        title: Text('Art Feed'),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: _buildFilterChipBar(),
+        ),
       ),
-      body: Center(
-        child: Text("Displaying content for: $selectedCategory"),
+      body: GridView.builder(
+        padding: EdgeInsets.all(8),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemCount: filteredArtworks.length,
+        itemBuilder: (context, index) {
+          Artwork artwork = filteredArtworks[index];
+          return Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image.network(artwork.imageUrl, fit: BoxFit.cover),
+                ListTile(
+                  title: Text(artwork.title),
+                  subtitle: Text(artwork.description),
+                ),
+                // ... any other widgets to display artwork details
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -47,7 +100,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     onSelected: (bool selected) {
                       setState(() {
                         if (selected) selectedCategory = category;
-                        // Here you would also trigger a fetch or filter of the feed data based on the selected category
+                        // The feed will update to show the filtered artworks
                       });
                     },
                   ),
