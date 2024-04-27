@@ -56,6 +56,7 @@ class _PortfolioState extends State<Portfolio> {
           crossAxisCount: 2,
           crossAxisSpacing: 30,
           mainAxisSpacing: 50,
+          childAspectRatio: (1 / 1.5),
         ),
         itemCount: filteredArtworks.length,
         itemBuilder: (context, index) {
