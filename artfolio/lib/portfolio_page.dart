@@ -1,7 +1,10 @@
+import 'package:artfolio/portfolio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'profile.dart'; // Assuming this model is correctly defined and imported
@@ -262,112 +265,147 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                     ),
                     const SizedBox(height: 30),
                     const Divider(),
-                    // GridView.builder(
-                    //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //         crossAxisCount: 3),
-                    //     itemBuilder: (context, index) {
-                    //       return Padding(padding: EdgeInsets.all(8), child: Container(child: Image.network(''),),);
-                    //     }),
-                    IconButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              barrierColor: Color.fromARGB(116, 94, 94, 94),
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  actions: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0, right: 15),
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 20),
-                                            _artworkImageFile != null
-                                                ? Image.file(_artworkImageFile!)
-                                                : Container(),
-                                            TextField(
-                                              controller: _titleController,
-                                              decoration: const InputDecoration(
-                                                  labelText: 'Title'),
-                                            ),
-                                            const SizedBox(height: 20),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(),
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              child: TextField(
-                                                controller:
-                                                    _descriptionController,
+                    SizedBox(height: 25),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Portfolio()));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(30.0),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Go To\nPortfolio",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 22),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(51, 158, 158, 158),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                barrierColor: Color.fromARGB(116, 94, 94, 94),
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    actions: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(height: 20),
+                                              _artworkImageFile != null
+                                                  ? Image.file(
+                                                      _artworkImageFile!)
+                                                  : Container(),
+                                              TextField(
+                                                controller: _titleController,
                                                 decoration:
                                                     const InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets
-                                                                .symmetric(
-                                                                    vertical:
-                                                                        20,
-                                                                    horizontal:
-                                                                        20),
-                                                        border:
-                                                            InputBorder.none,
-                                                        labelText:
-                                                            'Description'),
-                                                maxLines: null,
+                                                        labelText: 'Title'),
                                               ),
-                                            ),
-                                            const SizedBox(height: 15),
-                                            DropdownButton<String>(
-                                              value: _selectedType,
-                                              onChanged: (String? newValue) {
-                                                setState(() {
-                                                  _selectedType = newValue!;
-                                                });
-                                              },
-                                              items: _artTypes.map<
-                                                      DropdownMenuItem<String>>(
-                                                  (String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                            ),
-                                            IconButton(
-                                                onPressed: _pickArtworkImage,
-                                                icon: const Icon(
-                                                  Icons
-                                                      .drive_folder_upload_sharp,
-                                                  color: Colors.black,
-                                                )),
-                                            const SizedBox(height: 20),
-                                            ElevatedButton(
-                                              onPressed: _uploadArtwork,
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.black,
-                                                shape: RoundedRectangleBorder(
+                                              const SizedBox(height: 20),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(),
                                                   borderRadius:
                                                       BorderRadius.circular(15),
                                                 ),
+                                                child: TextField(
+                                                  controller:
+                                                      _descriptionController,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          contentPadding:
+                                                              EdgeInsets.symmetric(
+                                                                  vertical: 20,
+                                                                  horizontal:
+                                                                      20),
+                                                          border:
+                                                              InputBorder.none,
+                                                          labelText:
+                                                              'Description'),
+                                                  maxLines: null,
+                                                ),
                                               ),
-                                              child: const Text(
-                                                "Add to Portfolio",
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                              const SizedBox(height: 15),
+                                              DropdownButton<String>(
+                                                value: _selectedType,
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    _selectedType = newValue!;
+                                                  });
+                                                },
+                                                items: _artTypes.map<
+                                                        DropdownMenuItem<
+                                                            String>>(
+                                                    (String value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
                                               ),
-                                            ),
-                                          ],
+                                              IconButton(
+                                                  onPressed: _pickArtworkImage,
+                                                  icon: const Icon(
+                                                    Icons
+                                                        .drive_folder_upload_sharp,
+                                                    color: Colors.black,
+                                                  )),
+                                              const SizedBox(height: 20),
+                                              ElevatedButton(
+                                                onPressed: _uploadArtwork,
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.black,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  "Add to Portfolio",
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
-                        icon: const Icon(Icons.add)),
+                                    ],
+                                  );
+                                });
+                          },
+                          icon: const Icon(Icons.add)),
+                    ),
                   ],
                 ),
               ),
