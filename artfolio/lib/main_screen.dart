@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 90,
           backgroundColor: Colors.white,
           title: Padding(
